@@ -2,41 +2,39 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="section-container px-4 footer py-10 text-base-content">
-        <aside>
-          <img src="/logo.png" alt="" />
-          <p className="my-5 w-[160px]">
-            Savor the artistry where every dish is a culinary masterpiece.
+    <footer className="section-container text-base-content">
+      <div className="footer py-10 ">
+        <aside className="max-w-[200px]">
+          <img src="/logo.png" alt="" className="" />
+          <p className="my-3 ml-3">
+            Savor the artistry where every dish is a culinary masterpiece
           </p>
         </aside>
         <nav>
-          <h6 className="footer-title uppercase">Useful Links</h6>
+          <header className="footer-title text-black">Useful links</header>
           <a className="link link-hover">About us</a>
           <a className="link link-hover">Events</a>
           <a className="link link-hover">Blogs</a>
           <a className="link link-hover">FAQ</a>
         </nav>
         <nav>
-          <h6 className="footer-title">Company</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Jobs</a>
-          <a className="link link-hover">Press kit</a>
+          <header className="footer-title">Main Menu</header>
+          <a className="link link-hover">Home</a>
+          <a className="link link-hover">Offers</a>
+          <a className="link link-hover">Menus</a>
+          <a className="link link-hover">Reservation</a>
         </nav>
         <nav>
-          <h6 className="footer-title">Legal</h6>
-          <a className="link link-hover">Terms of use</a>
-          <a className="link link-hover">Privacy policy</a>
-          <a className="link link-hover">Cookie policy</a>
+          <header className="footer-title">Contact Us</header>
+          <a className="link link-hover">example@email.com</a>
+          <a className="link link-hover">+64 958 248 966</a>
+          <a className="link link-hover">Social media</a>
         </nav>
-      </footer>
-
+      </div>
       <hr />
-
-      <footer className="footer section-container items-center p-4">
+      <footer className="footer items-center py-4 mt-2">
         <aside className="items-center grid-flow-col">
-          <p>Copyright © 2024 - All right reserved</p>
+          <p>Copyright © 2023 - All right reserved</p>
         </aside>
         <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
           <a>
@@ -74,7 +72,7 @@ const Footer = () => {
           </a>
         </nav>
       </footer>
-    </div>
+    </footer>
   );
 };
 
