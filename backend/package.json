@@ -1,14 +1,13 @@
 {
-  "name": "foodi-client",
+  "name": "yummy-yard-server",
   "version": "1.0.0",
-  "description": " Foodi ecommerce website",
+  "description": " Food ecommerce website",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Arpit Goyal",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",

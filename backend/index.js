@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6001;
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
@@ -14,7 +14,7 @@ app.use(express.json());
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@foodi-cluster.6pvc312.mongodb.net/?retryWrites=true&w=majority&appName=foodi-cluster`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@yummy-yard-server.pbwwfgw.mongodb.net/yummy-yard-server?retryWrites=true&w=majority&appName=yummy-yard-server`
   )
   .then(console.log("MongoDB Connected Successfully!"))
   .catch((error) => console.log("Error connecting to MongoDB", error));
@@ -37,7 +37,7 @@ app.use("/cart", cartRoutes);
 app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello foodi client server!");
+  res.send("Hello YummyYard client server!");
 });
 
 app.listen(port, () => {
