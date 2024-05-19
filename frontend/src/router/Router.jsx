@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "./../layout/Main";
-import Home from "./../pages/home/Home";
-import Menu from "./../pages/menuPage/Menu";
+import Main from "../layout/Main";
+import Home from "../pages/home/Home";
+import Menu from "../pages/menuPage/Menu";
 import Signup from "../components/Signup";
 import Order from "../pages/dashboard/Order";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
