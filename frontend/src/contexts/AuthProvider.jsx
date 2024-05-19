@@ -14,7 +14,6 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import app from "../firebase/firebase.config";
-import axios from "axios";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext();
@@ -27,20 +26,24 @@ const AuthProvider = ({ children }) => {
 
   const axiosPublic = useAxiosPublic();
 
+  // create user with email and password
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  // sign up with google
   const signUpWithGmail = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
+  // login with email and password
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // logout
   const logOut = () => {
     localStorage.removeItem("genius-token");
     return signOut(auth);

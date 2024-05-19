@@ -1,22 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthProvider";
 import Swal from "sweetalert2";
 import useCart from "../hooks/useCart";
-import axios from "axios";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAuth from "../hooks/useAuth";
 
 const Cards = ({ item }) => {
   const { name, image, price, recipe, _id } = item;
 
   const axiosPublic = useAxiosPublic();
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [cart, refetch] = useCart();
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(item)
+
   const [isHeartFilled, setIsHeartFilled] = useState(false);
 
   const handleHeartClick = () => {
@@ -81,30 +80,32 @@ const Cards = ({ item }) => {
   return (
     <div
       to={`/menu/${item._id}`}
-      className="card shadow-xl relative mr-5 md:my-5"
+      className="card card-compact bg-base-100 shadow-xl rounded-xl rounded-tr-[35px] relative"
     >
       <div
-        className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-green ${
+        className={`rating absolute z-[1] right-0 top-0 p-4 heartStar bg-green ${
           isHeartFilled ? "text-rose-500" : "text-white"
         }`}
         onClick={handleHeartClick}
       >
         <FaHeart className="w-5 h-5 cursor-pointer" />
       </div>
+
       <Link to={`/menu/${item._id}`}>
         <figure>
           <img
             src={item.image}
-            alt="Shoes"
-            className="hover:scale-105 transition-all duration-300 md:h-72"
+            alt={item.name}
+            className="hover:scale-105 transition-all duration-300 h-56 md:h-72"
           />
         </figure>
       </Link>
+
       <div className="card-body">
         <Link to={`/menu/${item._id}`}>
           <h2 className="card-title">{item.name}!</h2>
         </Link>
-        <p>Description of the item</p>
+        <p>{item.recipe}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
             <span className="text-sm text-red">$ </span> {item.price}
@@ -113,7 +114,7 @@ const Cards = ({ item }) => {
             onClick={() => handleAddToCart(item)}
             className="btn bg-green text-white"
           >
-            Add to Cart{" "}
+            Add to Cart
           </button>
         </div>
       </div>

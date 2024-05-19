@@ -101,7 +101,7 @@ const Banner = () => {
 
         {/* texts */}
         <div className="md:w-1/2 px-4 space-y-7">
-          <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
+          <h2 className="section-heading">
             Dive into Delights Of Delectable{" "}
             <span className="text-green">Food</span>
           </h2>

@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
-import avatarImg from "/images/avatar.jpg"
+import avatarImg from "/images/avatar.jpg";
 import { Link, useNavigate } from "react-router-dom";
 
 const Profile = ({ user }) => {
   const { logOut } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // logout
   const handleLogout = () => {
     logOut()
       .then(() => {
         // Sign-out successful.
-        navigate("/")
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -21,6 +21,7 @@ const Profile = ({ user }) => {
 
   return (
     <div>
+      {console.log(user)}
       <div className="drawer drawer-end z-50">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
@@ -30,8 +31,11 @@ const Profile = ({ user }) => {
             className="drawer-button btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              {user.photoURL? <img alt="" src={user.photoURL} /> : <img alt="" src={avatarImg} />}
-              
+              {user.photoURL ? (
+                <img alt="" src={user.photoURL} />
+              ) : (
+                <img alt="" src={avatarImg} />
+              )}
             </div>
           </label>
         </div>

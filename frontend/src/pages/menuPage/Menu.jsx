@@ -26,6 +26,7 @@ const Menu = () => {
     fetchData();
   }, []);
 
+  // filter items based on category
   const filterItems = (category) => {
     const filtered =
       category === "all"
@@ -37,18 +38,21 @@ const Menu = () => {
     setCurrentPage(1);
   };
 
+  // show all items
   const showAll = () => {
     setFilteredItems(menu);
     setSelectedCategory("all");
     setCurrentPage(1);
   };
 
+  // sort items based on A-Z, Z-A, price low-high, price high-low
   const handleSortChange = (option) => {
     setSortOption(option);
 
     // Logic for sorting based on the selected option
     let sortedItems = [...filteredItems];
 
+    // logic
     switch (option) {
       case "A-Z":
         sortedItems.sort((a, b) => a.name.localeCompare(b.name));
@@ -71,7 +75,6 @@ const Menu = () => {
     setCurrentPage(1);
   };
 
-  //   console.log(filteredItems);
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -86,7 +89,7 @@ const Menu = () => {
         <div className="py-48 section-container flex flex-col items-center justify-center">
           {/* content */}
           <div className=" text-center px-4 space-y-7">
-            <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
+            <h2 className="section-heading">
               For the Love of Delicious <span className="text-green">Food</span>
             </h2>
             <p className="text-[#4A4A4A] text-xl md:w-4/5 mx-auto">
@@ -165,7 +168,7 @@ const Menu = () => {
         </div>
 
         {/* product card */}
-        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 ">
+        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-8 ">
           {currentItems.map((item, index) => (
             <Cards key={index} item={item} />
           ))}
