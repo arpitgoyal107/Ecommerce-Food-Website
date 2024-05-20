@@ -1,20 +1,16 @@
-/* eslint-disable react/prop-types */
-import React from "react";
-import { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  GoogleAuthProvider,
   updateProfile,
 } from "firebase/auth";
-import { useState } from "react";
-import { useEffect } from "react";
 import app from "../firebase/firebase.config";
-import useAxiosPublic from "../hooks/useAxiosPublic";
+import axios from "axios";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -24,32 +20,28 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const axiosPublic = useAxiosPublic();
-
-  // create user with email and password
+  //   create an account with email and password
   const createUser = (email, password) => {
-    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // sign up with google
+  //   signup with gmail
   const signUpWithGmail = () => {
-    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
-  // login with email and password
+  //   login using email and password
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  // logout
-  const logOut = () => {
-    localStorage.removeItem("genius-token");
-    return signOut(auth);
+  //   logout
+  const logout = () => {
+    localStorage.removeItem("access-token");
+    signOut(auth);
   };
 
-  // update your profile
+  //   update user profile
   const updateUserProfile = (name, photoURL) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
@@ -57,42 +49,41 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  //   check if user is logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // console.log(currentUser);
       setUser(currentUser);
       if (currentUser) {
-        const userInfo = { email: currentUser.email };
-        axiosPublic.post("/jwt", userInfo).then((response) => {
-          // console.log(response.data.token);
-          if (response.data.token) {
-            localStorage.setItem("access-token", response.data.token);
+        const userinfo = { emmail: currentUser.email };
+        axios.post("http://localhost:3000/jwt", userinfo).then((res) => {
+          // console.log(res.data.token);
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
           }
         });
       } else {
+        // console.log("no user");
         localStorage.removeItem("access-token");
       }
-
       setLoading(false);
     });
-
     return () => {
       return unsubscribe();
     };
   }, []);
 
-  const authInfo = {
+  const authinfo = {
     user,
     loading,
     createUser,
-    login,
-    logOut,
     signUpWithGmail,
+    login,
+    logout,
     updateUserProfile,
   };
 
   return (
-    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authinfo}>{children}</AuthContext.Provider>
   );
 };
 

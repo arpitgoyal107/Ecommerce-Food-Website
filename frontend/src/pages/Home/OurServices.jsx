@@ -37,7 +37,7 @@ const OurServices = () => {
       <div className="flex flex-col md:flex-row items-center justify-between gap-12">
         {/* text */}
         <div className="md:w-1/2">
-          <div className="text-left md:max-w-[600px] px-4">
+          <div className="text-left md:max-w-[500px] px-4">
             <p className=" section-subHeading uppercase">
               Our Story & Services
             </p>

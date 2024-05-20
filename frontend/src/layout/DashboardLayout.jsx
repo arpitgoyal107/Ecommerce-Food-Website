@@ -1,21 +1,21 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { MdDashboard, MdDashboardCustomize } from "react-icons/md";
+import { MdDashboard, MdOutlineDashboardCustomize } from "react-icons/md";
 import {
+  FaCartPlus,
   FaEdit,
   FaLocationArrow,
   FaPlusCircle,
   FaQuestionCircle,
   FaRegUser,
   FaShoppingBag,
-  FaUser,
+  FaUsers,
 } from "react-icons/fa";
-
 import logo from "/logo.png";
-import { FaCartShopping } from "react-icons/fa6";
-import Login from "../components/Login";
 import useAdmin from "../hooks/useAdmin";
 import useAuth from "../hooks/useAuth";
+import Signup from "../components/Signup";
+import LoadingSpinner from "./../components/LoadingSpinner";
 
 const sharedLinks = (
   <>
@@ -26,7 +26,7 @@ const sharedLinks = (
     </li>
     <li>
       <Link to="/menu">
-        <FaCartShopping /> Menu
+        <FaCartPlus /> Menu
       </Link>
     </li>
     <li>
@@ -35,7 +35,7 @@ const sharedLinks = (
       </Link>
     </li>
     <li>
-      <Link to="/menu">
+      <Link to="/dashboard">
         <FaQuestionCircle /> Customer Support
       </Link>
     </li>
@@ -50,20 +50,21 @@ const DashboardLayout = () => {
       {isAdmin ? (
         <div className="drawer sm:drawer-open">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content flex flex-col sm:items-start sm:justify-start my-2">
+          <div className="drawer-content flex flex-col sm:items-start sm:justify-start">
             {/* Page content here */}
-            <div className="flex items-center justify-between mx-4">
+            <div className="flex self-center justify-between w-full p-4">
               <label
                 htmlFor="my-drawer-2"
-                className="btn btn-primary drawer-button lg:hidden"
+                className="btn btn-primary drawer-button sm:hidden"
               >
-                <MdDashboardCustomize />
+                <MdOutlineDashboardCustomize />
               </label>
-              <button className="btn rounded-full px-6 bg-green flex items-center gap-2 text-white sm:hidden">
+
+              <button className="btn bg-green text-white rounded-full px-6 sm:hidden flex items-center gap-2 ">
                 <FaRegUser /> Logout
               </button>
             </div>
-            <div className="mt-5 md:mt-2 mx-4">
+            <div className="my-5 sm:my-2 mx-4">
               <Outlet />
             </div>
           </div>
@@ -76,8 +77,11 @@ const DashboardLayout = () => {
             <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
               {/* Sidebar content here */}
               <li>
-                <Link to="/dashboard" className="flex justify-start mb-3">
-                  <img src={logo} alt="" className="w-20" />
+                <Link
+                  to="/dashboard"
+                  className="flex justify-start flex-row mb-3"
+                >
+                  <img src={logo} alt="logo" className="w-20" />
                   <span className="badge badge-primary">admin</span>
                 </Link>
               </li>
@@ -93,31 +97,32 @@ const DashboardLayout = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard/add-menu">
-                  <FaPlusCircle />
-                  Add Menu
+                <Link to="/dashboard">
+                  <FaPlusCircle /> Add Menu
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard/manage-items">
+                <Link to="/dashboard">
                   <FaEdit /> Manage Items
                 </Link>
               </li>
               <li className="mb-3">
                 <Link to="/dashboard/users">
-                  <FaUser /> All Users
+                  <FaUsers /> Users
                 </Link>
               </li>
 
               <hr />
 
-              {/* shared nav links */}
-              {sharedLinks}
+              {
+                // sharedLinks
+                sharedLinks
+              }
             </ul>
           </div>
         </div>
-      ) : loading ? (
-        <Login />
+      ) : loading || isAdminLoading ? (
+        <LoadingSpinner />
       ) : (
         <div className="h-screen flex justify-center items-center">
           <Link to="/">

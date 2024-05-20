@@ -1,22 +1,16 @@
-import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Main from "./../layout/Main";
-import Home from "../pages/home/Home";
-import Menu from "../pages/menuPage/Menu";
-import PrivateRoute from "./../PrivateRoute/PrivateRoute";
-import Order from "./../pages/dashboard/Order";
-import UserProfile from "./../pages/dashboard/UserProfile";
-import CartPage from "./../pages/menuPage/CartPage";
-import Signup from "./../components/Signup";
-import Login from "./../components/Login";
-import DashboardLayout from "./../layout/DashboardLayout";
-import Dashboard from "./../pages/dashboard/admin/Dashboard";
-import Users from "./../pages/dashboard/admin/Users";
-import AddMenu from "./../pages/dashboard/admin/AddMenu";
-import ManageItems from "./../pages/dashboard/admin/ManageItems";
-import UpdateMenu from "./../pages/dashboard/admin/UpdateMenu";
+import Main from "../layout/Main";
+import Home from "./../pages/Home/Home";
+import Menu from "./../pages/Menu/Menu";
+import Signup from "../components/Signup";
+import PrivateRouter from "../PrivateRouter/PrivateRouter";
+import UpdateProfile from "../pages/Dashboard/UpdateProfile";
+import CartPage from "../pages/Menu/CartPage";
+import DashboardLayout from "../layout/DashboardLayout";
+import Dashboard from "../pages/Dashboard/admin/Dashboard";
+import Users from "../pages/Dashboard/admin/Users";
 
-const router = createBrowserRouter([
+const Router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
@@ -38,16 +32,12 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/update-profile",
-        element: (
-          <PrivateRoute>
-            <UserProfile />
-          </PrivateRoute>
-        ),
+        path: "/cart",
+        element: <CartPage />,
       },
       {
-        path: "/cart-page",
-        element: <CartPage />,
+        path: "/update-profile",
+        element: <UpdateProfile />,
       },
     ],
   },
@@ -56,15 +46,11 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
     path: "dashboard",
     element: (
-      <PrivateRoute>
+      <PrivateRouter>
         <DashboardLayout />
-      </PrivateRoute>
+      </PrivateRouter>
     ),
     children: [
       {
@@ -75,22 +61,8 @@ const router = createBrowserRouter([
         path: "users",
         element: <Users />,
       },
-      {
-        path: "add-menu",
-        element: <AddMenu />,
-      },
-      {
-        path: "manage-items",
-        element: <ManageItems />,
-      },
-      {
-        path: "update-menu/:id",
-        element: <UpdateMenu />,
-        loader: ({ params }) =>
-          fetch(`https://yummy-yard.onrender.com/menu/${params.id}`),
-      },
     ],
   },
 ]);
 
-export default router;
+export default Router;

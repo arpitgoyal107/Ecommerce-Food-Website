@@ -1,20 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthProvider";
+import useAuth from "./useAuth";
 
 const useCart = () => {
-  const { user } = useContext(AuthContext);
-  // console.log(user.email)
+  const { user } = useAuth();
   const token = localStorage.getItem("access-token");
 
   const { refetch, data: cart = [] } = useQuery({
     queryKey: ["carts", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `https://yummy-yard.onrender.com/carts?email=${user?.email}`,
+        `http://localhost:3000/cart?email=${user?.email}`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -24,4 +22,5 @@ const useCart = () => {
 
   return [cart, refetch];
 };
+
 export default useCart;

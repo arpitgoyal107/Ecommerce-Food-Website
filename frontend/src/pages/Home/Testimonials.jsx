@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import { FaStar } from "react-icons/fa";
 
@@ -11,7 +10,7 @@ const Testimonials = () => {
         </div>
 
         <div className="md:w-1/2">
-          <div className="text-left md:max-w-[600px] px-4">
+          <div className="text-left md:max-w-[500px] px-4">
             <p className=" section-subHeading">Testimonials</p>
             <h2 className=" section-heading capitalize">
               What Our customers say about us

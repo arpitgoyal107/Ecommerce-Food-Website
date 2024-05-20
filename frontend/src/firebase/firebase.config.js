@@ -17,3 +17,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export default app;
+
+
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBpG3ggT6mr3U1PQvXSs8xSsQR0s4eON6U",
+//     authDomain: "foodi-102a5.firebaseapp.com",
+//     projectId: "foodi-102a5",
+//     storageBucket: "foodi-102a5.appspot.com",
+//     messagingSenderId: "558327925072",
+//     appId: "1:558327925072:web:b9e46fa76cfdc28a478455"
+//   };

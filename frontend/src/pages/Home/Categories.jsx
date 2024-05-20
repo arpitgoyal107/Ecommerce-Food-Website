@@ -21,13 +21,13 @@ const categoryItems = [
   },
   {
     id: 4,
-    title: "Browse All",
-    des: "(255 Items)",
+    title: "Browse ALL",
+    des: "(255 items)",
     image: "/images/home/category/img4.png",
   },
 ];
 
-const Catagories = () => {
+const Categories = () => {
   return (
     <div className=" section-container py-16 px-4">
       <div className="text-center">
@@ -60,4 +60,4 @@ const Catagories = () => {
   );
 };
 
-export default Catagories;
+export default Categories;

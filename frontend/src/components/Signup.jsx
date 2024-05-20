@@ -1,157 +1,189 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaFacebookF, FaGithub, FaGoogle, FaRegUser } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import Modal from "./Modal";
 import { AuthContext } from "../contexts/AuthProvider";
 import axios from "axios";
+import Swal from "sweetalert2";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAuth from "../hooks/useAuth";
 
 const Signup = () => {
-  const { signUpWithGmail, createUser, updateUserProfile } =
-    useContext(AuthContext);
-    const axiosPublic = useAxiosPublic();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const from = location.state?.from?.pathname || "/";
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const { createUser, signUpWithGmail, updateUserProfile } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // redirecting to the home page or specific page
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
   const onSubmit = (data) => {
-    const email = data.email;
-    const password = data.password;
-    // console.log(email, password)
+    const { name, email, password } = data;
+    // console.log(email, password);
     createUser(email, password)
       .then((result) => {
-        // Signed up
+        // Signed in
         const user = result.user;
-        updateUserProfile(data.email, data.photoURL).then(() => {
-          const userInfor = {
+
+        // update user profile
+        updateUserProfile(
+          data.name,
+          "https://cdn.pixabay.com/photo/2024/03/28/18/06/dog-8661433_1280.png"
+        ).then(() => {
+          const userInfo = {
             name: data.name,
             email: data.email,
           };
-          axiosPublic.post("/users", userInfor)
-            .then((response) => {
-              // console.log(response);
-              alert("Signin successful!");
-              navigate(from, { replace: true });
+          axiosPublic.post("/users", userInfo).then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Signin Successful!",
+              showConfirmButton: false,
+              timer: 1500,
             });
+            navigate(from, { replace: true });
+          });
         });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        setErrorMessage(errorCode + ": " + errorMessage);
       });
   };
 
-  // login with google
-  const handleRegister = () => {
+  //   first go to home("/") and then open "my_modal" for login form
+  const handleLoginClick = () => {
+    setTimeout(() => {
+      document.getElementById("my_modal").showModal();
+    }, 500); // Adjust the delay time as needed
+  };
+
+  // google signin
+  const handleGoogleLogin = () => {
     signUpWithGmail()
       .then((result) => {
         const user = result.user;
-        const userInfor = {
+        const userInfo = {
           name: result?.user?.displayName,
           email: result?.user?.email,
         };
-        axiosPublic
-          .post("/users", userInfor)
-          .then((response) => {
-            // console.log(response);
-            alert("Signin successful!");
-            navigate("/");
-          });
+
+        axiosPublic.post("/users", userInfo);
+
+        Swal.fire({
+          icon: "success",
+          title: "Signin Successful!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(from, { replace: true });
       })
       .catch((error) => console.log(error));
   };
+
   return (
-    <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
-      <div className="mb-5">
-        <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
-          <h3 className="font-bold text-lg">Please Create An Account!</h3>
-          {/* name */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Name</span>
-            </label>
-            <input
-              type="name"
-              placeholder="Your name"
-              className="input input-bordered"
-              {...register("name")}
-            />
-          </div>
+    <div className="max-w-md shadow-lg rounded-md py-6 px-3 mx-auto my-24 items-center justify-center relative">
+      <Link
+        to="/"
+        className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2"
+      >
+        ✕
+      </Link>
+      <form
+        className="card-body"
+        method="dialog"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <h3 className="font-bold text-lg">Create A User Account!</h3>
 
-          {/* email */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
-            <input
-              type="email"
-              placeholder="email"
-              className="input input-bordered"
-              {...register("email")}
-            />
-          </div>
-
-          {/* password */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
-            <input
-              type="password"
-              placeholder="password"
-              className="input input-bordered"
-              {...register("password")}
-            />
-            <label className="label">
-              <a href="#" className="label-text-alt link link-hover mt-2">
-                Forgot password?
-              </a>
-            </label>
-          </div>
-
-          {/* error message */}
-          <p>{errors.message}</p>
-
-          {/* submit btn */}
-          <div className="form-control mt-6">
-            <input
-              type="submit"
-              className="btn bg-green text-white"
-              value="Sign up"
-            />
-          </div>
-
-          <div className="text-center my-2">
-            Have an account?
-            <Link to="/login">
-              <button className="ml-2 underline">Login here</button>
-            </Link>
-          </div>
-        </form>
-        <div className="text-center space-x-3">
-          <button
-            onClick={handleRegister}
-            className="btn btn-circle hover:bg-green hover:text-white"
-          >
-            <FaGoogle />
-          </button>
-          <button className="btn btn-circle hover:bg-green hover:text-white">
-            <FaFacebookF />
-          </button>
-          <button className="btn btn-circle hover:bg-green hover:text-white">
-            <FaGithub />
-          </button>
+        {/* name */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input
+            type="text"
+            placeholder="name"
+            className="input input-bordered"
+            {...register("name")}
+          />
         </div>
+
+        {/* email */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Email</span>
+          </label>
+          <input
+            type="email"
+            placeholder="email"
+            className="input input-bordered"
+            {...register("email")}
+          />
+        </div>
+
+        {/* password */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Password</span>
+          </label>
+          <input
+            type="password"
+            placeholder="password"
+            className="input input-bordered"
+            {...register("password")}
+          />
+        </div>
+
+        {/* error message */}
+        {errorMessage ? <p className="text-red text-sm">{errorMessage}</p> : ""}
+
+        {/* Signup button */}
+        <div className="form-control mt-6">
+          <input
+            type="submit"
+            value="Signup"
+            className="btn bg-green text-white"
+          />
+        </div>
+
+        {/* Login */}
+        <p className="text-center my-2">
+          Have an account?{" "}
+          <Link
+            to="/"
+            onClick={handleLoginClick}
+            className=" underline-offset-[2px] underline text-red ml-1"
+          >
+            Login
+          </Link>
+        </p>
+      </form>
+
+      {/* social signin */}
+      <div className="text-center space-x-3 mb-5">
+        <button
+          className="btn btn-circle hover:bg-green hover:text-white"
+          onClick={handleGoogleLogin}
+        >
+          <FaGoogle size={16} />
+        </button>
+
+        <button className="btn btn-circle hover:bg-green hover:text-white">
+          <FaFacebookF size={16} />
+        </button>
+
+        <button className="btn btn-circle hover:bg-green hover:text-white">
+          <FaGithub size={16} />
+        </button>
       </div>
     </div>
   );

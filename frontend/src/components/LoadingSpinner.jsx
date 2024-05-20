@@ -2,13 +2,12 @@ import React from "react";
 
 const LoadingSpinner = () => {
   return (
-    <div className="loading-spinner">
-      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
-        <div className="animate-pulse flex">
-          <div className="flex-1 space-y-6 py-1">
-            <div className="rounded-full bg-slate-200 h-10 p-12 "></div>
-          </div>
-        </div>
+    <div className=" h-screen flex items-center justify-center">
+      <div className="flex flex-col gap-4 w-52">
+        <div className="skeleton h-32 w-full"></div>
+        <div className="skeleton h-4 w-28"></div>
+        <div className="skeleton h-4 w-full"></div>
+        <div className="skeleton h-4 w-full"></div>
       </div>
     </div>
   );
