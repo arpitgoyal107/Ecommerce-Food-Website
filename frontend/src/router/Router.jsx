@@ -10,6 +10,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/admin/Dashboard";
 import Users from "../pages/Dashboard/admin/Users";
 import PrivateRoute from "../PrivateRouter/PrivateRouter";
+import Order from "../pages/Dashboard/Order";
 
 const Router = createBrowserRouter([
   {
