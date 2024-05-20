@@ -9,6 +9,7 @@ import CartPage from "../pages/Menu/CartPage";
 import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/admin/Dashboard";
 import Users from "../pages/Dashboard/admin/Users";
+import PrivateRoute from "../PrivateRouter/PrivateRouter";
 
 const Router = createBrowserRouter([
   {
